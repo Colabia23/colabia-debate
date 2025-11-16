@@ -1,0 +1,188 @@
+<!doctype html><html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Juegos — Compañía</title>
+<link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body>
+<header class="header"><div class="container nav">
+  <div class="brand"><div class="logo"><img class="logo" src="assets/img1.png" alt="Logo de Colabia"></div><a href="index.html">COLABIA</a></div>
+  <nav class="menu"><a href="index.html">Inicio</a><a class="active" href="games.html">Juegos</a><a href="about.html">Creadores</a><a href="contact.html">Contacto</a></nav>
+  <div class="actions"><a class="btn" href="contact.html">Empezar</a></div></div></header>
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<main class="section">
+    <section class="banner-debate">
+  <div class="wrap">
+    <section class="hero-carousel" id="heroCarousel">
+
+  <div class="hc-viewport">
+    <div class="hc-track">
+      <!-- Slide 1: DEBATE (actual) -->
+      <section class="hc-slide">
+        <div class="wrap">
+          <div class="eyebrow">DISPONIBLE AHORA</div>
+          <h1>DEBATE</h1>
+          <div class="sub">Organiza partidas · Participa · Gana experiencia</div>
+          <div class="actions">
+            <a class="btn" href="/start">Comenzar ahora</a>
+          </div>
+          <div class="media placeholder">TRAILER / PORTADA</div>
+        </div>
+      </section>
+<svg class="curve-sep" viewBox="0 0 1440 140" preserveAspectRatio="none" aria-hidden="true"><path d="M0,40 C300,140 1140,-60 1440,60 L1440,140 L0,140 Z"></path></svg>
+
+      <!-- Slide 2: Próximo juego -->
+      <section class="hc-slide">
+        <div class="wrap">
+          <div class="eyebrow">PRÓXIMAMENTE</div>
+          <h1>ACTIVIDAD</h1>
+          <div class="sub">Dinámicas colaborativas para clases y talleres</div>
+          <div class="actions">
+            <a class="btn alt" href="javascript:void(0)">Muy pronto</a>
+          </div>
+          <div class="media placeholder">PORTADA / PREVIEW</div>
+        </div>
+      </section>
+
+      <!-- Slide 3: Próxima herramienta -->
+      <section class="hc-slide">
+        <div class="wrap">
+          <div class="eyebrow">PRÓXIMAMENTE</div>
+          <h1>HERRAMIENTA</h1>
+          <div class="sub">Evaluación, rúbricas y seguimiento</div>
+          <div class="actions">
+            <a class="btn alt" href="javascript:void(0)">Muy pronto</a>
+          </div>
+          <div class="media placeholder">PORTADA / PREVIEW</div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div class="hc-dots" aria-hidden="true"></div>
+</section>
+
+<div class="container">
+  <h2 class="reveal">Nuestra colección</h2><p class="lead"></p>
+  <div class="grid grid-3 reveal">
+    <article class="game-card reveal-left"><div class="thumb">PORTADA</div><h3>Debates</h3><p class="muted">Aprendizaje colaborativo</p><p><span class="badge top">Lanzado</span></p></article>
+    <article class="game-card reveal-fade"><div class="thumb">PORTADA</div><h3>PROXIMAMENTE</h3><p class="muted">PROXIMAMENTE</p><p><span class="badge top">No Lanzado</span></p></article>
+    <article class="game-card reveal-right"><div class="thumb">PORTADA</div><h3>PROXIMAMENTE</h3><p class="muted">PROXIMAMENTE</p><p><span class="badge top">No Lanzado</span></p></article>
+  </div>
+</div></main>
+<footer class="footer"><div class="container cols">
+  <div><div class="brand"><div class="logo"></div><strong>Compañía</strong></div><p class="muted">COLABIA© <span id="y"></span></p></div>
+  <div><h4>Soporte</h4><p><a href="#">FAQ</a><br><a href="#">Estado del servidor</a></p></div>
+  <div><h4>Legal</h4><p><a href="#">Privacidad</a><br><a href="#">Términos</a></p></div>
+</div><script>document.getElementById('y').textContent = new Date().getFullYear()</script></footer>
+
+<script src="js/me.js" defer></script>
+<script>
+(function(){
+  const root  = document.getElementById('heroCarousel');
+  const view  = root.querySelector('.hc-viewport');
+  const track = root.querySelector('.hc-track');
+  const prev  = root.querySelector('.hc-nav.prev');
+  const next  = root.querySelector('.hc-nav.next');
+  const slides= Array.from(track.children);
+  const dotsC = root.querySelector('.hc-dots');
+
+  let idx = 0, animating = false, autoplay = null;
+
+  // Dots
+  slides.forEach((_,i)=>{
+    const b=document.createElement('button');
+    if(i===0) b.classList.add('active');
+    b.addEventListener('click',()=>goTo(i));
+    dotsC.appendChild(b);
+  });
+  const dots = Array.from(dotsC.children);
+  const setDot = (i)=>{ dots.forEach(d=>d.classList.remove('active')); dots[i].classList.add('active'); };
+
+  function nextSlide(){
+    if(animating) return; animating = true;
+    track.style.transition = 'transform .45s ease';
+    track.style.transform = 'translateX(-100%)';
+    track.addEventListener('transitionend', onAfterNext, {once:true});
+  }
+  function onAfterNext(){
+    track.appendChild(track.firstElementChild);       // mueve 1º al final
+    track.style.transition = 'none';
+    track.style.transform  = 'translateX(0)';         // resetea
+    idx = (idx+1) % slides.length;
+    setDot(idx);
+    requestAnimationFrame(()=> animating=false);
+  }
+
+  function prevSlide(){
+    if(animating) return; animating = true;
+    track.style.transition = 'none';
+    track.insertBefore(track.lastElementChild, track.firstElementChild); // último al inicio
+    track.style.transform = 'translateX(-100%)';
+    requestAnimationFrame(()=>{
+      track.style.transition = 'transform .45s ease';
+      track.style.transform  = 'translateX(0)';
+      track.addEventListener('transitionend', ()=>{ animating=false; }, {once:true});
+    });
+    idx = (idx - 1 + slides.length) % slides.length;
+    setDot(idx);
+  }
+
+  function goTo(target){
+    const diff = (target - idx + slides.length) % slides.length;
+    if(diff===0) return;
+    if(diff===1) return nextSlide();
+    if(diff===slides.length-1) return prevSlide();
+    // Saltos mayores: reordenamos sin animación para mantener ciclo
+    while(idx !== target){
+      track.appendChild(track.firstElementChild);
+      idx = (idx+1) % slides.length;
+    }
+    setDot(idx);
+  }
+
+  next.addEventListener('click', nextSlide);
+  prev.addEventListener('click', prevSlide);
+
+  // Drag (ratón/touch)
+  let startX = 0, delta = 0, dragging = false;
+  function onDown(e){ dragging=true; delta=0; startX=(e.touches? e.touches[0].clientX : e.clientX); track.style.transition='none'; }
+  function onMove(e){
+    if(!dragging) return;
+    const x=(e.touches? e.touches[0].clientX : e.clientX);
+    delta = x - startX;
+    track.style.transform = `translateX(${Math.max(Math.min(delta, 80), -80)}px)`; // feedback limitado
+  }
+  function onUp(){
+    if(!dragging) return; dragging=false;
+    if(Math.abs(delta) > 60){ delta<0 ? nextSlide() : prevSlide(); }
+    else{ track.style.transition='transform .2s ease'; track.style.transform='translateX(0)'; }
+  }
+  view.addEventListener('mousedown', onDown);
+  view.addEventListener('mousemove', onMove);
+  window.addEventListener('mouseup', onUp);
+  view.addEventListener('touchstart', onDown, {passive:true});
+  view.addEventListener('touchmove', onMove, {passive:true});
+  view.addEventListener('touchend', onUp);
+
+  // Scroll horizontal con la rueda (trackpads)
+  view.addEventListener('wheel', (e)=>{
+    if(Math.abs(e.deltaX) > Math.abs(e.deltaY)){
+      e.preventDefault();
+      (e.deltaX>0 ? nextSlide : prevSlide)();
+    }
+  }, {passive:false});
+
+  // Autoplay (pausa al hover)
+  function start(){ autoplay = setInterval(nextSlide, 6000); }
+  function stop(){ clearInterval(autoplay); autoplay=null; }
+  root.addEventListener('mouseenter', stop);
+  root.addEventListener('mouseleave', start);
+  start();
+})();
+</script>
+
+</body>
+</html>

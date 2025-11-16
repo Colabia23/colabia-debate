@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Aprende</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<header class="header">
+  <div class="container nav">
+    <div class="brand">
+      <img class="logo" src="assets/img1.png" alt="Logo de Colabia">
+      <a href="index.html">COLABIA</a>
+    </div>
+    <nav class="menu">
+      <a class="active" href="index.html">Inicio</a>
+      <a href="games.html">Juegos</a>
+      <a href="about.html">Creadores</a>
+      <a href="contact.html">Contacto</a>
+    </nav>
+    <div class="actions"><a class="btn" href="/start">Iniciar sesión</a></div>
+  </div>
+</header>
+
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+
+<main>
+
+  <!-- HERO FULL-BLEED -->
+  <section class="hero hero-slider full-bleed">
+    <div class="container">
+      <!-- dots -->
+      <div class="dots" aria-label="Selector de diapositivas">
+        <label for="h1"></label><label for="h2"></label><label for="h3"></label>
+      </div>
+
+      <!-- controllers -->
+      <input type="radio" id="h1" name="hslide" checked>
+      <input type="radio" id="h2" name="hslide">
+      <input type="radio" id="h3" name="hslide">
+
+      <!-- slides -->
+      <div class="h-slides">
+        <article class="h-slide" style="--img:url('assets/portada.png')">
+          <div class="h-col">
+            <span class="h-kicker">Creado para <span class="badge top">aprender</span></span>
+            <h1>Debate como juego</h1>
+            <h1>Aprende sin darte cuenta</h1>
+            <p class="h-lead">Aprender, crear y colaborar</p>
+            <a class="btn" href="/start">Empezar</a>
+          </div>
+        </article>
+
+        <article class="h-slide" style="--img:url('assets/slide2.jpg')">
+          <div class="h-col">
+            <span class="h-kicker">Temporadas y <span class="pill">recompensas</span></span>
+            <h1>Torneos semanales</h1>
+            <p class="h-lead">Compite y gana cosméticos exclusivos.</p>
+            <a class="btn h-cta" href="/start">Empezar</a>
+          </div>
+        </article>
+
+        <article class="h-slide" style="--img:url('assets/slide3.jpg')">
+          <div class="h-col">
+            <span class="h-kicker">Actualizaciones <span class="pill">constantes</span></span>
+            <h1>Nuevos mapas y modos</h1>
+            <p class="h-lead">Roadmap público y acceso anticipado.</p>
+            <a class="btn h-cta" href="/start">Empezar</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+  <!-- Tarjetas principales -->
+  <section class="section">
+    <div class="container">
+      <h2 class="reveal">Colabora con tus compañeros con</h2>
+      <p class="lead">Todo con aprendizaje colaborativo.</p>
+      <div class="grid grid-3 reveal">
+        <article class="game-card reveal-left">
+          <div class="thumb">DEBATES</div>
+          <h3>DEBATES</h3>
+          <p class="muted">Debate de forma entretenida</p>
+          <p><span class="badge top">Top</span> <span class="badge">PC/Consola</span></p>
+        </article>
+        <article class="game-card reveal-fade">
+          <div class="thumb">PROXIMAMENTE</div>
+          <h3>PROXIMAMENTE</h3>
+          <p class="muted">PROXIMAMENTE</p>
+          <p><span class="badge top">PC</span> <span class="badge new">EA</span></p>
+        </article>
+        <article class="game-card reveal-right">
+          <div class="thumb">PROXIMAMENTE</div>
+          <h3>PROXIMAMENTE</h3>
+          <p class="muted">PROXIMAMENTE</p>
+          <p><span class="badge top">PC/Consola</span> <span class="badge">WIP</span></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección A -->
+  <section class="hero-section">
+    <div class="container hero-grid">
+      <!-- Columna izquierda -->
+      <div class="hero-text reveal fade-in">
+        <h2>APRENDER ES MÁS DIVERTIDO CON COLABIA</h2>
+        <p>Diseñamos debates <strong>dinámicos y colaborativos</strong> donde argumentas, usas cartas y mejoras tu forma de comunicar sin formalismos excesivos.</p>
+        <div class="quote">“En cada ronda aprendes a sintetizar, aportar evidencias y responder con creatividad…”</div>
+      </div>
+  <div class="col center-media">
+    <span class="circle-wrap">
+      <img src="assets/img1.png" alt="Colabia">
+    </span>
+  </div>
+      <!-- Columna derecha -->
+      <div class="hero-text reveal fade-in">
+        <h3>¿Por qué elegir Colabia?</h3>
+        <p>Debates que premian la <strong>claridad</strong>, la <strong>creatividad</strong> y el <strong>trabajo en equipo</strong>.</p>
+        <a href="games.html" class="btn-primary">Explorar debates</a>
+      </div>
+    </div>
+  </section>
+  <!-- Sección B -->
+  <section class="features-section">
+    <div class="container feature-grid">
+      <div class="feature-media reveal fade-in">
+        <img src="assets/img3.png" alt="Configuración de salas">
+      </div>
+      <div class="features-text reveal fade-in">
+        <h2>CREA SALAS Y EMPIEZA EN SEGUNDOS</h2>
+        <p>Configura el tema, define rondas y reparte cartas de <strong>bonificación o sabotaje</strong>.</p>
+      </div>
+      <div class="cards" data-reveal-group>
+        <div class="card reveal-right">🎯 Cartas con propósito</div>
+        <div class="card reveal-right">🤝 Trabajo en equipo</div>
+        <div class="card reveal-right">⚡ Ritmo y emoción</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container cols">
+    <div>
+      <div class="brand"><div class="logo"></div><strong>COLABIA</strong></div>
+      <p class="muted">COLABIA© <span id="y"></span></p>
+    </div>
+    <div>
+      <h4>Explorar</h4>
+      <p><a href="games.html">Juegos</a><br><a href="about.html">Estudio</a><br><a href="contact.html">Contacto</a></p>
+    </div>
+    <div>
+      <h4>Social</h4>
+      <p><a href="#">Discord</a><br><a href="#">YouTube</a><br><a href="#">X/Twitter</a></p>
+    </div>
+  </div>
+  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
+</footer>
+
+<!-- jQuery para el nuevo bloque -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" defer></script>
+
+<!-- Tu JS -->
+<script src="js/me.js" defer></script>
+
+<!-- Observer de animaciones -->
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-visible','reveal-visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { rootMargin: "0px 0px -10% 0px", threshold: 0.15 });
+
+  document.querySelectorAll('.reveal, .reveal-right, [data-reveal-group] > *').forEach(el => io.observe(el));
+</script>
+<script>
+  // Selecciona los "slides" de texto
+  const slides = Array.from(document.querySelectorAll('.shop-block .infoSection > div'));
+  // (Opcional) imágenes para sincronizar
+  const imgs   = Array.from(document.querySelectorAll('.shop-block .imgSection .headphone'));
+
+  // Asegura un activo inicial
+  let idx = slides.findIndex(el => el.classList.contains('active'));
+  if (idx < 0) { idx = 0; slides[0].classList.add('active'); }
+  if (imgs.length) { imgs.forEach((im,i)=> im.classList.toggle('active', i===idx)); }
+
+  const nextBtn = document.querySelector('.shop-block .next');
+  const prevBtn = document.querySelector('.shop-block .pre');
+
+  function show(newIndex){
+    // desactiva actual
+    slides[idx].classList.remove('active');
+    if (imgs.length) imgs[idx].classList.remove('active');
+
+    // calcula nuevo índice (carrusel circular)
+    idx = (newIndex + slides.length) % slides.length;
+
+    // activa nuevo
+    slides[idx].classList.add('active');
+    if (imgs.length) imgs[idx].classList.add('active');
+  }
+
+  nextBtn && nextBtn.addEventListener('click', ()=> show(idx + 1));
+  prevBtn && prevBtn.addEventListener('click', ()=> show(idx - 1));
+</script>
+
+</body>
+</html>

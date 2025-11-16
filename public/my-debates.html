@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mis debates — Compañía</title>
+<link rel="stylesheet" href="/style.css"></head><body>
+<header class="header"><div class="container nav">
+  <div class="brand"><div class="logo"></div><a href="/">Compañía</a></div>
+  <nav class="menu"><a href="/">Inicio</a><a href="/games.html">Juegos</a><a href="/about.html">Creadores</a><a href="/contact.html">Contacto</a></nav>
+  <div class="actions"><a class="btn" id="userBtn" href="/auth">Iniciar sesión</a></div>
+</div></header>
+<main class="section"><div class="container">
+  <h2 class="reveal">Mis debates</h2>
+  <div id="list" class="grid grid-3"></div>
+</div></main>
+<footer class="footer"><div class="container cols"><div><div class="brand"><div class="logo"></div><strong>Compañía</strong></div><p class="muted">COLABIA©<span id="y"></span></p></div></div><script>document.getElementById('y').textContent = new Date().getFullYear()</script></footer>
+<script src="/js/me.js" defer></script>
+<script src="/js/me.js" defer></script>
+<script>
+async function load(){
+  const r = await fetch('/api/debates/mine',{credentials:'include'});
+  if(!r.ok){ location.href='/auth'; return; }
+  const arr = await r.json();
+  const wrap = document.getElementById('list');
+  if(!arr.length){
+    wrap.innerHTML = '<p class="muted">Aún no tienes debates guardados.</p>';
+    return;
+  }
+  wrap.innerHTML = arr.map(d => `
+    <div class="card">
+      <h3>${d.topic}</h3>
+      <p class="muted">Código: ${d.code} · Finalizado: ${new Date(d.finishedAt).toLocaleString()}</p>
+      <p>Host: ${d.host?.name || '—'}</p>
+      <p>Participantes: ${(d.players || []).map(p => p.name).join(', ')}</p>
+    </div>
+  `).join('');
+}
+load();
+</script>
+</body></html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acceso — Compañía</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container nav">
+      <div class="brand"><div class="logo"></div><a href="/">COLABIA</a></div>
+      <nav class="menu">
+        <a href="/">Inicio</a>
+        <a href="/games.html">Juegos</a>
+        <a href="/about.html">Estudio</a>
+        <a href="/contact.html">Contacto</a>
+      </nav>
+      <div class="actions">
+        <a class="btn" href="/start">Ir al Debate</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="auth-hero">
+    <div class="auth-bg" aria-hidden="true"></div>
+    <div class="auth-inner">
+      <div class="auth-grid">
+
+        <!-- Registro -->
+        <form class="panel" id="formRegister" action="/auth/register" method="post">
+          <div class="logo-badge"></div>
+          <h2 class="reveal">Crear cuenta</h2>
+          <p class="sub">Regístrate para participar en debates</p>
+
+          <label class="field">Nombre
+            <input name="name" type="text" placeholder="Tu nombre" required>
+          </label>
+          <label class="field">Email
+            <input name="email" type="email" placeholder="name@email.com" required>
+          </label>
+          <label class="field">Contraseña
+            <input name="password" type="password" placeholder="••••••••" required>
+          </label>
+          <button class="cta-gradient" type="submit">Crear cuenta</button>
+
+          <p class="meta" style="margin:10px 0">Al registrarte aceptas nuestros términos.</p>
+        </form>
+
+        <!-- Login -->
+        <form class="panel" id="formLogin" action="/auth/login" method="post">
+          <div class="logo-badge"></div>
+          <h2>Iniciar sesión</h2>
+          <p class="sub">Accede para unirte a salas</p>
+
+          <label class="field">Email
+            <input name="email" type="email" placeholder="email" required>
+          </label>
+          <label class="field">Contraseña
+            <input name="password" type="password" placeholder="••••••••" required>
+          </label>
+          <button class="cta-gradient" type="submit">Entrar</button>
+        </form>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container cols">
+      <div><div class="brand"><div class="logo"></div><strong>Compañía</strong></div><p class="muted">COLABIA© <span id="y"></span></p></div>
+      <div><h4>Legal</h4><p><a href="#">Privacidad</a><br><a href="#">Términos</a></p></div>
+      <div><h4>Soporte</h4><p><a href="#">FAQ</a><br><a href="#">Estado del servidor</a></p></div>
+    </div>
+    <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
+  </footer>
+  <script src="/js/me.js" defer></script>
+</body>
+</html>

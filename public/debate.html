@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Debate colaborativo — Compañía</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    /* layout dinámico estilo wireframe */
+    .room-shell{display:grid;grid-template-columns:260px 1fr 280px;gap:16px}
+    .left-col .cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .left-col .cards-grid .slot{height:88px;border:1px dashed var(--line);border-radius:12px;background:#fff}
+    .center-col .stage{height:420px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:12px;color:var(--ink)}
+    .center-col .composer{margin-top:10px;display:grid;grid-template-columns:1fr auto;gap:8px}
+    .right-col .panel{background:rgba(255,255,255,.9);border:1px solid var(--line);border-radius:14px;padding:12px}
+    .participants li.host{font-weight:800}
+    .badge{display:inline-block;padding:3px 8px;border-radius:999px;font-size:12px;background:#0ea5e9;color:#fff;margin-left:6px}
+    .config{display:none} /* visible solo si host */
+  .btn.ghost.xs{padding:4px 8px;font-size:12px;border-radius:8px;margin-left:6px}
+.card-chip{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;box-shadow:0 2px 8px rgba(11,18,64,.06)}
+.card-chip.active{outline:3px solid rgba(14,165,233,.35)}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="container nav">
+    <div class="brand"><div class="logo"></div><a href="/">Colabia</a></div>
+    <nav class="menu">
+      <a href="/">Inicio</a>
+      <a href="/games.html">Juegos</a>
+      <a href="/about.html">Creadores</a>
+      <a href="/contact.html">Contacto</a>
+    </nav>
+    <div class="actions">
+      <a class="btn" id="userBtn" href="/auth">Iniciar sesión</a>
+      <form id="logoutForm" action="/auth/logout" method="post" style="display:inline">
+        <button class="btn ghost" id="btnLogout" style="display:none" type="submit">Salir</button>
+      </form>
+    </div>
+  </div>
+</header>
+
+<main class="section">
+  <div class="container">
+    <!-- Lobby -->
+    <div class="debate-lobby card" id="lobby">
+      <h2 class="reveal">Debates colaborativos</h2>
+      <p class="muted">Crea una sala o únete con un código.</p>
+      <div class="grid grid-2">
+        <div>
+          <h3>Crear sala</h3>
+          <label class="field">Tu nombre
+            <input id="hostName" type="text" placeholder="Tu nombre" required>
+          </label>
+          <label class="field">Tema del debate
+            <input id="topic" type="text" placeholder="Ej. Impacto de la IA en educación">
+          </label>
+          <button class="btn" id="btnCreate">Crear</button>
+          <p class="muted" id="createHint" style="margin-top:8px"></p>
+        </div>
+        <div>
+          <h3>Unirse a sala</h3>
+          <label class="field">Tu nombre
+            <input id="joinName" type="text" placeholder="Tu nombre" required>
+          </label>
+          <label class="field">Código de sala
+            <input id="roomCode" type="text" placeholder="ABC123" maxlength="8">
+          </label>
+          <button class="btn ghost" id="btnJoin">Unirme</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sala -->
+    <div id="room" style="display:none">
+      <div class="room-top" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div>
+          <h2 id="roomTopic">Tema del debate</h2>
+          <p class="muted">Sala: <span id="roomId"></span> · Moderador: <span id="hostLabel"></span></p>
+        </div>
+        <div class="room-actions">
+          <button class="btn" id="btnStartRound">Iniciar ronda</button>
+          <button class="btn ghost" id="btnCopyCode">Copiar código</button>
+          <a class="btn ghost" id="btnExport" href="#" download>Descargar acta</a>
+          <a class="btn ghost" href="/debate">Salir</a>
+        </div>
+      </div>
+
+      <div class="room-shell">
+        <div class="left-col">
+          <div class="card">
+            <h3>Grupo A</h3>
+            <ul id="teamA" class="list"></ul>
+            <div class="score">Puntos: <span id="scoreA">0</span> <button class="btn ghost xs" id="aMinus">−1</button> <button class="btn ghost xs" id="aPlus">+1</button></div>
+          </div>
+          <div class="card" style="margin-top:12px">
+            <h3>Grupo B</h3>
+            <ul id="teamB" class="list"></ul>
+            <div class="score">Puntos: <span id="scoreB">0</span> <button class="btn ghost xs" id="bMinus">−1</button> <button class="btn ghost xs" id="bPlus">+1</button></div>
+          </div>
+          <div class="card" style="margin-top:12px">
+            <h4>Cartas</h4>
+            <div id="myCards" class="cards-grid">
+              <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
+            </div>
+            <div class="stage-cta" style="margin-top:8px;display:flex;gap:8px">
+              <button class="btn" id="btnUseCard" disabled>Usar carta</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="center-col">
+          <div class="stage">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>Turno de: <strong id="currentTurn">—</strong></div>
+              <div class="timer" id="timer" style="min-width:100px;text-align:center">00:00</div>
+            </div>
+            <div id="stageContent" style="margin-top:10px">Espacio de debate</div>
+          </div>
+          <div class="composer">
+            <input id="chatText" type="text" placeholder="Escribe un mensaje…">
+            <button class="btn" id="btnSend">Enviar</button>
+          </div>
+          <div id="chatLog" class="card" style="margin-top:10px;max-height:200px;overflow:auto"></div>
+        </div>
+
+        <div class="right-col">
+          <div class="panel">
+            <h3>Participantes</h3>
+            <ul id="participants" class="participants list"></ul>
+          </div>
+          <div class="panel config" id="configPanel" style="margin-top:12px">
+            <h3>Configuración (host)</h3>
+            <label class="field">Duración del turno (seg)
+              <input id="turnSeconds" type="number" value="90" min="30" max="300">
+            </label>
+            <button class="btn" id="btnApplyConfig">Aplicar</button>
+            <button class="btn ghost" id="btnFinish">Terminar debate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container cols">
+    <div><div class="brand"><div class="logo"></div><strong>Compañía</strong></div><p class="muted">COLABIA©<span id="y"></span></p></div>
+    <div><h4>Explorar</h4><p><a href="/games.html">Juegos</a><br><a href="/about.html">Creadores</a><br><a href="/contact.html">Contacto</a></p></div>
+  </div>
+  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
+</footer>
+
+<script src="/js/me.js" defer></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/debate-socket.js" defer></script>
+</body>
+</html>

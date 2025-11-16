@@ -1,0 +1,27 @@
+<!doctype html><html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contacto — Compañía</title>
+<link rel="stylesheet" href="style.css"></head><body>
+<header class="header"><div class="container nav">
+  <div class="brand"><div class="logo"><img class="logo" src="assets/img1.png" alt="Logo de Colabia"></div><a href="index.html">COLABIA</a></div>
+  <nav class="menu"><a href="index.html">Inicio</a><a href="games.html">Juegos</a><a href="about.html">Creadores</a><a class="active" href="contact.html">Contacto</a></nav>
+  <div class="actions"><a class="btn" href="games.html">Ver juegos</a></div></header>
+<main class="section"><div class="container">
+  <h2 class="reveal">Contacto</h2><p class="lead">Formulario de demostración.</p>
+  <div class="grid grid-2">
+    <form class="card">
+      <label>Nombre<br><input type="text" placeholder="Tu nombre" required></label><br><br>
+      <label>Email<br><input type="email" placeholder="tu@email.com" required></label><br><br>
+      <label>Asunto<br><input type="text" placeholder="¿Cómo podemos ayudarte?" required></label><br><br>
+      <label>Mensaje<br><textarea rows="6" placeholder="Cuéntanos más..." style="width:100%;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.14);color:var(--ink);padding:12px;border-radius:10px"></textarea></label><br>
+      <button class="btn">Enviar</button>
+    </form>
+</div></main>
+<footer class="footer"><div class="container cols">
+  <div><div class="brand"><div class="logo"></div><strong>Compañía</strong></div><p class="muted">COLABIA© <span id="y"></span></p></div>
+  <div><h4>Legal</h4><p><a href="#">Privacidad</a><br><a href="#">Términos</a></p></div>
+  <div><h4>Soporte</h4><p><a href="#">FAQ</a><br><a href="#">Estado del servidor</a></p></div>
+</div><script>document.getElementById('y').textContent = new Date().getFullYear()</script></footer>
+
+<script src="js/me.js" defer></script>
+</body></html>
