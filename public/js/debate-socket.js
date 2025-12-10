@@ -14,6 +14,12 @@ const teamA = $("#teamA");
 const teamB = $("#teamB");
 const scoreA = $("#scoreA");
 const scoreB = $("#scoreB");
+const materialsPanel = document.getElementById('materialsPanel');
+const materialsList  = document.getElementById('materialsList');
+const materialForm   = document.getElementById('materialForm');
+const materialTitle  = document.getElementById('materialTitle');
+const materialUrl    = document.getElementById('materialUrl');
+const materialType   = document.getElementById('materialType');
 const currentTurn = $("#currentTurn");
 const timerEl = $("#timer");
 const participantsEl = $("#participants");
@@ -30,6 +36,59 @@ let isJurado = false;
 
 let myName = null;
 let selectedCardIndex = -1;
+
+// --- Materiales de apoyo ---
+let materialsLoaded = false;
+
+async function loadMaterials(code){
+  if(!materialsList) return;
+  try{
+    const res = await fetch(`/api/rooms/${code}/materials`, { credentials:'include' });
+    if(!res.ok) return;
+    const materials = await res.json();
+    renderMaterials(materials);
+  }catch(e){
+    console.error('Error cargando materiales', e);
+  }
+}
+
+function renderMaterials(materials){
+  if(!materialsList) return;
+  materialsList.innerHTML = '';
+  if(!materials || !materials.length){
+    materialsList.innerHTML = '<p class="muted">Aún no hay materiales.</p>';
+    return;
+  }
+  materials.forEach(m=>{
+    const item = document.createElement('div');
+    item.className = 'material-item';
+    item.style.display = 'flex';
+    item.style.justifyContent = 'space-between';
+    item.style.alignItems = 'center';
+    item.style.gap = '8px';
+    item.style.marginBottom = '4px';
+    const icon = m.type === 'pdf' ? '📄' : '🔗';
+    item.innerHTML = `
+      <a href="${m.url}" target="_blank" rel="noopener noreferrer">
+        ${icon} ${m.title}
+      </a>
+      ${isHost ? `<button class="btn ghost xs material-delete" data-id="${m._id}">✕</button>` : ''}
+    `;
+    materialsList.appendChild(item);
+  });
+}
+
+function setupMaterialsFeature(){
+  if(!materialsPanel) return;
+  if(isHost && materialForm){
+    materialForm.style.display = 'block';
+  }
+  if(activeCode && !materialsLoaded){
+    loadMaterials(activeCode);
+    materialsLoaded = true;
+  }
+}
+
 
 async function getMe(){
   try{ const r = await fetch('/api/me',{credentials:'include'}); if(!r.ok) return null; return await r.json(); }catch{return null;}
@@ -116,6 +175,7 @@ document.getElementById("btnCreate")?.addEventListener("click", async ()=>{
   createHint.textContent = `Sala creada: ${data.code} (copiado)`; try{ await navigator.clipboard.writeText(data.code);}catch{}
   lobby.style.display='none'; room.style.display='';
   connectSocket();
+  setupMaterialsFeature();
   ioSocket.emit('room:join', { code: data.code });
   const me = await getMe(); myName = me?.name || null; ioSocket.emit('hand:get', { code: data.code, userName: myName });
 });
@@ -129,6 +189,7 @@ document.getElementById("btnJoin")?.addEventListener("click", async ()=>{
   activeCode = data.code; isHost = false;
   lobby.style.display='none'; room.style.display='';
   connectSocket();
+  setupMaterialsFeature();
   ioSocket.emit('room:join', { code: data.code });
   const me = await getMe(); myName = me?.name || null; ioSocket.emit('hand:get', { code: data.code, userName: myName });
 });
@@ -185,4 +246,47 @@ document.getElementById('btnUseCard')?.addEventListener('click', ()=>{
     // pide actualización al servidor vía canal de sala
     if(ioSocket) ioSocket.emit('room:join', { code: activeCode });
   });
+});
+
+// Eventos para materiales de apoyo
+materialForm?.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  if(!isHost || !activeCode) return;
+  const body = {
+    title: materialTitle.value.trim(),
+    url: materialUrl.value.trim(),
+    type: materialType.value
+  };
+  if(!body.title || !body.url) return;
+  try{
+    const res = await fetch(`/api/rooms/${activeCode}/materials`, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json' },
+      credentials:'include',
+      body: JSON.stringify(body)
+    });
+    if(!res.ok){ alert('No se pudo guardar el material'); return; }
+    const materials = await res.json();
+    renderMaterials(materials);
+    materialForm.reset();
+  }catch(e){
+    console.error('Error guardando material', e);
+  }
+});
+
+materialsList?.addEventListener('click', async (e)=>{
+  const btn = e.target.closest('.material-delete');
+  if(!btn || !isHost || !activeCode) return;
+  const id = btn.dataset.id;
+  if(!id) return;
+  try{
+    const res = await fetch(`/api/rooms/${activeCode}/materials/${id}`, {
+      method:'DELETE',
+      credentials:'include'
+    });
+    if(!res.ok) return;
+    loadMaterials(activeCode);
+  }catch(err){
+    console.error('Error borrando material', err);
+  }
 });

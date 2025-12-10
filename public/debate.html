@@ -19,6 +19,24 @@
   .btn.ghost.xs{padding:4px 8px;font-size:12px;border-radius:8px;margin-left:6px}
 .card-chip{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;box-shadow:0 2px 8px rgba(11,18,64,.06)}
 .card-chip.active{outline:3px solid rgba(14,165,233,.35)}
+
+    /* Correcciones de contraste en la sala de debate */
+    .center-col .stage{
+      color:#0f172a;
+    }
+    .right-col .panel,
+    .right-col .panel h3,
+    .right-col .panel p,
+    .right-col .panel label{
+      color:#0f172a;
+    }
+    #materialsPanel a{
+      color:#0f172a;
+      font-weight:500;
+    }
+    #materialsPanel a:hover{
+      text-decoration:underline;
+    }
 </style>
 </head>
 <body>
@@ -136,6 +154,28 @@
             </label>
             <button class="btn" id="btnApplyConfig">Aplicar</button>
             <button class="btn ghost" id="btnFinish">Terminar debate</button>
+          </div>
+
+          <!-- Panel de materiales de apoyo -->
+          <div class="panel" id="materialsPanel" style="margin-top:12px">
+            <h3>Materiales de apoyo</h3>
+            <p class="muted">Fuentes compartidas por el moderador.</p>
+
+            <!-- Lista de enlaces / PDFs -->
+            <div id="materialsList" class="list" style="max-height:180px;overflow:auto;"></div>
+
+            <!-- Formulario visible solo para el host (se muestra por JS) -->
+            <form id="materialForm" class="field" style="margin-top:8px;display:none;">
+              <input id="materialTitle" type="text"
+                     placeholder="Título (ej. Artículo principal)" required>
+              <input id="materialUrl" type="url"
+                     placeholder="URL (PDF, artículo, Drive…)" required>
+              <select id="materialType">
+                <option value="link">Enlace</option>
+                <option value="pdf">PDF</option>
+              </select>
+              <button class="btn xs" type="submit">Añadir material</button>
+            </form>
           </div>
         </div>
       </div>
