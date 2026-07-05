@@ -82,24 +82,29 @@
     <div class="container">
       <h2 class="reveal">Colabora con tus compañeros con</h2>
       <p class="lead">Todo con aprendizaje colaborativo.</p>
-      <div class="grid grid-3 reveal">
-        <article class="game-card reveal-left">
-          <div class="thumb">DEBATES</div>
-          <h3>DEBATES</h3>
-          <p class="muted">Debate de forma entretenida</p>
-          <p><span class="badge top">Top</span> <span class="badge">PC/Consola</span></p>
-        </article>
+      <div class="grid grid-2-cards reveal">
         <article class="game-card reveal-fade">
-          <div class="thumb">PROXIMAMENTE</div>
-          <h3>PROXIMAMENTE</h3>
-          <p class="muted">PROXIMAMENTE</p>
-          <p><span class="badge top">PC</span> <span class="badge new">EA</span></p>
+          <button type="button" class="thumb thumb-video open-modal-btn" data-modal="modal-video" aria-label="Reproducir video: El conflicto Israel–Palestina">
+            <img class="thumb-img" src="https://img.youtube.com/vi/kIx07_jugJA/hqdefault.jpg" alt="Vista previa del video" loading="lazy">
+            <span class="thumb-play">▶</span>
+          </button>
+          <div class="game-card-body">
+            <h3>El conflicto Israel–Palestina</h3>
+            <p><span class="badge top">Video</span> <span class="badge new">YouTube</span></p>
+            <button type="button" class="btn-primary open-modal-btn" data-modal="modal-video">Ver video</button>
+          </div>
         </article>
         <article class="game-card reveal-right">
-          <div class="thumb">PROXIMAMENTE</div>
-          <h3>PROXIMAMENTE</h3>
-          <p class="muted">PROXIMAMENTE</p>
-          <p><span class="badge top">PC/Consola</span> <span class="badge">WIP</span></p>
+          <button type="button" class="thumb thumb-doc open-modal-btn" data-modal="modal-presentacion" aria-label="Ver presentación: El judaísmo y el monoteísmo">
+            <span class="doc-icon">📄</span>
+            <span class="doc-lines"><span></span><span></span><span></span><span class="short"></span></span>
+            <span class="thumb-play thumb-play-doc">🔍</span>
+          </button>
+          <div class="game-card-body">
+            <h3>El judaísmo y el monoteísmo</h3>
+            <p><span class="badge top">PDF</span> <span class="badge">Presentación</span></p>
+            <button type="button" class="btn-primary open-modal-btn" data-modal="modal-presentacion">Ver presentación</button>
+          </div>
         </article>
       </div>
     </div>
@@ -164,6 +169,34 @@
   <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
 </footer>
 
+<!-- Modal: Video -->
+<div class="modal-overlay" id="modal-video" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-label="Video de Colabia">
+    <button type="button" class="modal-close" aria-label="Cerrar">&times;</button>
+    <h3 class="modal-title">Video</h3>
+    <div class="modal-video-wrap">
+      <iframe
+        data-src="https://www.youtube.com/embed/kIx07_jugJA"
+        title="Video de Colabia"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        frameborder="0"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Presentación -->
+<div class="modal-overlay" id="modal-presentacion" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-label="Presentación de Colabia">
+    <button type="button" class="modal-close" aria-label="Cerrar">&times;</button>
+    <h3 class="modal-title">Presentación</h3>
+    <div class="modal-pdf-wrap">
+      <iframe data-src="assets/presentacion.pdf" title="Presentación de Colabia"></iframe>
+    </div>
+    <a class="modal-download" href="assets/presentacion.pdf" download>Descargar presentación</a>
+  </div>
+</div>
+
 <!-- jQuery para el nuevo bloque -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" defer></script>
 
@@ -212,6 +245,50 @@
 
   nextBtn && nextBtn.addEventListener('click', ()=> show(idx + 1));
   prevBtn && prevBtn.addEventListener('click', ()=> show(idx - 1));
+</script>
+
+<!-- Ventanas modales: video y presentación -->
+<script>
+(function(){
+  function openModal(modal){
+    const iframe = modal.querySelector('iframe[data-src]');
+    if (iframe && !iframe.getAttribute('src')) {
+      iframe.setAttribute('src', iframe.dataset.src);
+    }
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+  }
+
+  function closeModal(modal){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+    // Quitamos el src para detener la reproducción del video al cerrar
+    const iframe = modal.querySelector('iframe[data-src]');
+    if (iframe) iframe.removeAttribute('src');
+  }
+
+  document.querySelectorAll('.open-modal-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const modal = document.getElementById(btn.dataset.modal);
+      if (modal) openModal(modal);
+    });
+  });
+
+  document.querySelectorAll('.modal-overlay').forEach((modal) => {
+    modal.querySelector('.modal-close')?.addEventListener('click', () => closeModal(modal));
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal(modal);
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.is-open').forEach(closeModal);
+    }
+  });
+})();
 </script>
 
 </body>
