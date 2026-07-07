@@ -1132,8 +1132,9 @@ a:hover{ color:#063bd6; text-decoration: underline; }
 /* ============ Modales: video y presentación ============ */
 .open-modal-btn{margin-top:10px;cursor:pointer;font:inherit}
 
-/* Tarjetas de video/presentación con vista previa */
-.game-card{
+/* Tarjetas de recursos (video/presentación) con vista previa */
+.game-card,
+.resource-card{
   display:flex; flex-direction:column;
   background:var(--panel);
   border:1px solid var(--line);
@@ -1142,16 +1143,27 @@ a:hover{ color:#063bd6; text-decoration: underline; }
   box-shadow:var(--shadow);
   transition:transform .2s ease, box-shadow .2s ease;
 }
-.game-card:hover{
+.game-card:hover,
+.resource-card:hover{
   transform:translateY(-4px);
   box-shadow:0 16px 34px rgba(2,6,23,.12);
 }
-.game-card-body{padding:18px}
-.game-card-body h3{margin:0 0 8px}
-.game-card-body p{margin:0 0 4px}
-.game-card .badge{color:var(--ink)}
+.game-card-body,
+.resource-body{padding:18px}
+.game-card-body h3,
+.resource-body h4{margin:0 0 8px}
+.game-card-body p,
+.resource-body p{margin:0 0 4px}
+.game-card .badge,
+.resource-card .badge{color:var(--ink)}
+.resource-body .muted-note{color:var(--muted); font-size:14px; margin-bottom:10px}
+.resource-body .btn-primary[disabled]{
+  opacity:.5; cursor:not-allowed; box-shadow:none;
+}
+.resource-body .btn-primary[disabled]:hover{background:var(--brand); color:#0b0b0b}
 
-.game-card .thumb{
+.game-card .thumb,
+.resource-card .thumb{
   aspect-ratio:16/9; width:100%;
   position:relative;
   display:block; padding:0; margin:0; border:0;
@@ -1177,6 +1189,14 @@ a:hover{ color:#063bd6; text-decoration: underline; }
 .doc-lines span{display:block; height:6px; border-radius:999px; background:rgba(11,11,18,.18)}
 .doc-lines span.short{width:60%}
 
+/* Vista previa "placeholder" para temas aún sin contenido */
+.thumb-placeholder{
+  display:grid; place-items:center;
+  font-size:34px; cursor:default;
+  background:repeating-linear-gradient(135deg, #eef1ff, #eef1ff 10px, #e5e9ff 10px, #e5e9ff 20px);
+  opacity:.75;
+}
+
 /* Botón de "play"/"lupa" flotante sobre la vista previa */
 .thumb-play{
   position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
@@ -1189,6 +1209,34 @@ a:hover{ color:#063bd6; text-decoration: underline; }
 .thumb:hover .thumb-play{background:var(--accent, #0b5cff); transform:translate(-50%,-50%) scale(1.08)}
 .thumb-play-doc{position:static; transform:none; width:auto; height:auto; background:transparent; color:inherit; font-size:13px; box-shadow:none; opacity:.75}
 .thumb-doc:hover .thumb-play-doc{transform:none; background:transparent; opacity:1}
+
+/* ============ Tarjetas de temas de aprendizaje ============ */
+.section-heading{max-width:860px; margin:0 auto 24px; text-align:center}
+.topics-grid{display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:18px; max-width:1100px; margin:0 auto}
+.topic-card{
+  display:flex; flex-direction:column; gap:12px;
+  padding:28px;
+  border:1px solid var(--line);
+  border-radius:24px;
+  background:linear-gradient(145deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  color:var(--ink);
+  text-align:left;
+  box-shadow:var(--shadow);
+  cursor:pointer;
+  transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.topic-card:hover,
+.topic-card:focus-visible{
+  transform:translateY(-4px);
+  border-color:rgba(41,217,255,.45);
+  box-shadow:0 18px 40px rgba(0,0,0,.3);
+  outline:none;
+}
+.topic-card .topic-index{font-weight:900; font-size:14px; color:var(--muted); min-width:28px}
+.topic-card .topic-icon{font-size:28px}
+.topic-card .topic-title{margin:0; font-size:clamp(18px,1.8vw,22px); line-height:1.15}
+.topic-card .topic-copy{margin:0; color:var(--muted); min-height:72px}
+.topic-card .topic-pill{display:inline-flex; align-self:flex-start; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:800; background:rgba(41,217,255,.16); color:#bfefff}
 
 .modal-overlay{
   position:fixed; inset:0; z-index:1000;
@@ -1213,7 +1261,9 @@ a:hover{ color:#063bd6; text-decoration: underline; }
 }
 .modal-overlay.is-open .modal-box{transform:translateY(0)}
 
-.modal-title{margin:0 0 14px; font-size:clamp(20px,2.6vw,28px)}
+.modal-title{margin:0 0 8px; font-size:clamp(20px,2.6vw,28px)}
+.modal-copy{margin:0 0 18px; color:var(--muted)}
+.modal-kicker{margin:0 0 4px; color:var(--cyan); font-weight:800; font-size:12px; letter-spacing:.16em; text-transform:uppercase}
 
 .modal-close{
   position:absolute; top:10px; right:14px;
@@ -1221,6 +1271,17 @@ a:hover{ color:#063bd6; text-decoration: underline; }
   font-size:30px; line-height:1; cursor:pointer;
 }
 .modal-close:hover{color:var(--cyan)}
+
+.topic-modal-box{max-width:1100px; max-height:90vh; overflow:auto}
+.topic-modal-actions{display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap}
+.modal-choice-btn{padding:10px 14px; border:1px solid var(--line); border-radius:999px; background:rgba(255,255,255,.04); color:var(--ink); cursor:pointer; font-weight:700}
+.modal-choice-btn.is-active{background:rgba(41,217,255,.16); border-color:rgba(41,217,255,.35); color:#bfefff}
+.modal-choice-btn.is-hidden{display:none}
+.topic-modal-resources{display:grid; gap:18px}
+.modal-resource-card{padding:18px; border:1px solid var(--line); border-radius:18px; background:rgba(255,255,255,.03)}
+.modal-resource-card.is-hidden{display:none}
+.resource-head{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px}
+.resource-head h4{margin:0}
 
 .modal-video-wrap{
   position:relative; width:100%; padding-top:56.25%;
@@ -1242,7 +1303,12 @@ a:hover{ color:#063bd6; text-decoration: underline; }
 
 body.modal-open{overflow:hidden}
 
+@media (max-width:960px){
+  .topics-grid{grid-template-columns:repeat(2, minmax(0, 1fr))}
+}
 @media (max-width:640px){
+  .topics-grid{grid-template-columns:1fr}
   .modal-box{padding:16px}
   .modal-pdf-wrap{height:60vh}
+  .topic-card{padding:22px}
 }

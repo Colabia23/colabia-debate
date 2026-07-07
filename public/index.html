@@ -77,35 +77,43 @@
       </div>
     </div>
   </section>
-  <!-- Tarjetas principales -->
+  <!-- Temas de aprendizaje -->
   <section class="section">
     <div class="container">
-      <h2 class="reveal">Colabora con tus compañeros con</h2>
-      <p class="lead">Todo con aprendizaje colaborativo.</p>
-      <div class="grid grid-2-cards reveal">
-        <article class="game-card reveal-fade">
-          <button type="button" class="thumb thumb-video open-modal-btn" data-modal="modal-video" aria-label="Reproducir video: El conflicto Israel–Palestina">
-            <img class="thumb-img" src="https://img.youtube.com/vi/kIx07_jugJA/hqdefault.jpg" alt="Vista previa del video" loading="lazy">
-            <span class="thumb-play">▶</span>
-          </button>
-          <div class="game-card-body">
-            <h3>El conflicto Israel–Palestina</h3>
-            <p><span class="badge top">Video</span> <span class="badge new">YouTube</span></p>
-            <button type="button" class="btn-primary open-modal-btn" data-modal="modal-video">Ver video</button>
-          </div>
-        </article>
-        <article class="game-card reveal-right">
-          <button type="button" class="thumb thumb-doc open-modal-btn" data-modal="modal-presentacion" aria-label="Ver presentación: El judaísmo y el monoteísmo">
-            <span class="doc-icon">📄</span>
-            <span class="doc-lines"><span></span><span></span><span></span><span class="short"></span></span>
-            <span class="thumb-play thumb-play-doc">🔍</span>
-          </button>
-          <div class="game-card-body">
-            <h3>El judaísmo y el monoteísmo</h3>
-            <p><span class="badge top">PDF</span> <span class="badge">Presentación</span></p>
-            <button type="button" class="btn-primary open-modal-btn" data-modal="modal-presentacion">Ver presentación</button>
-          </div>
-        </article>
+      <div class="section-heading reveal">
+        <h2>Temas de aprendizaje</h2>
+        <p class="lead">Selecciona un tema para ver sus recursos.</p>
+      </div>
+
+      <div class="topics-grid reveal">
+        <button type="button" class="topic-card" data-topic="1">
+          <span class="topic-index">01</span>
+          <span class="topic-icon">🏛️</span>
+          <h3 class="topic-title">La cultura como producción material y simbólica</h3>
+          <p class="topic-copy">Comprende la cultura desde su dimensión material, social y simbólica.</p>
+          <span class="topic-pill">Presentación PDF</span>
+        </button>
+        <button type="button" class="topic-card" data-topic="2">
+          <span class="topic-index">02</span>
+          <span class="topic-icon">🕌</span>
+          <h3 class="topic-title">El islam y su influencia cultural: surgimiento y expansión</h3>
+          <p class="topic-copy">Explora el origen del islam y su impacto en la cultura mundial.</p>
+          <span class="topic-pill">Presentación PDF</span>
+        </button>
+        <button type="button" class="topic-card" data-topic="3">
+          <span class="topic-index">03</span>
+          <span class="topic-icon">✝️</span>
+          <h3 class="topic-title">Expansión del cristianismo y sus conflictos</h3>
+          <p class="topic-copy">Analiza la difusión del cristianismo y los conflictos que marcaron su historia.</p>
+          <span class="topic-pill">Presentación PDF</span>
+        </button>
+        <button type="button" class="topic-card" data-topic="4">
+          <span class="topic-index">04</span>
+          <span class="topic-icon">🕯️</span>
+          <h3 class="topic-title">El judaísmo y el monoteísmo</h3>
+          <p class="topic-copy">Conoce las bases del judaísmo y su aporte al pensamiento monoteísta.</p>
+          <span class="topic-pill">PDF + video</span>
+        </button>
       </div>
     </div>
   </section>
@@ -169,31 +177,40 @@
   <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
 </footer>
 
-<!-- Modal: Video -->
-<div class="modal-overlay" id="modal-video" aria-hidden="true">
-  <div class="modal-box" role="dialog" aria-modal="true" aria-label="Video de Colabia">
+<!-- Modal: recursos de tema -->
+<div class="modal-overlay" id="topic-modal" aria-hidden="true">
+  <div class="modal-box topic-modal-box" role="dialog" aria-modal="true" aria-label="Recursos del tema">
     <button type="button" class="modal-close" aria-label="Cerrar">&times;</button>
-    <h3 class="modal-title">Video</h3>
-    <div class="modal-video-wrap">
-      <iframe
-        data-src="https://www.youtube.com/embed/kIx07_jugJA"
-        title="Video de Colabia"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-        frameborder="0"></iframe>
+    <div class="topic-modal-header">
+      <p class="modal-kicker">Recurso del tema</p>
+      <h3 class="modal-title" id="topic-modal-title">Tema</h3>
+      <p class="modal-copy" id="topic-modal-description"></p>
     </div>
-  </div>
-</div>
-
-<!-- Modal: Presentación -->
-<div class="modal-overlay" id="modal-presentacion" aria-hidden="true">
-  <div class="modal-box" role="dialog" aria-modal="true" aria-label="Presentación de Colabia">
-    <button type="button" class="modal-close" aria-label="Cerrar">&times;</button>
-    <h3 class="modal-title">Presentación</h3>
-    <div class="modal-pdf-wrap">
-      <iframe data-src="assets/presentacion.pdf" title="Presentación de Colabia"></iframe>
+    <div class="topic-modal-actions">
+      <button type="button" class="modal-choice-btn is-active" data-view="pdf">Ver presentación</button>
+      <button type="button" class="modal-choice-btn" data-view="video">Ver video</button>
     </div>
-    <a class="modal-download" href="assets/presentacion.pdf" download>Descargar presentación</a>
+    <div class="topic-modal-resources">
+      <article class="modal-resource-card" id="topic-modal-pdf-card">
+        <div class="resource-head">
+          <h4>Presentación en PDF</h4>
+          <span class="badge top">PDF</span>
+        </div>
+        <div class="modal-pdf-wrap">
+          <iframe id="topic-modal-pdf" title="Presentación del tema"></iframe>
+        </div>
+        <a class="modal-download" id="topic-modal-download" href="assets/tema1.pdf" download>Descargar presentación</a>
+      </article>
+      <article class="modal-resource-card is-hidden" id="topic-modal-video-card">
+        <div class="resource-head">
+          <h4>Video explicativo</h4>
+          <span class="badge new">Video</span>
+        </div>
+        <div class="modal-video-wrap">
+          <iframe id="topic-modal-video" title="Video del tema" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen frameborder="0"></iframe>
+        </div>
+      </article>
+    </div>
   </div>
 </div>
 
@@ -217,12 +234,9 @@
   document.querySelectorAll('.reveal, .reveal-right, [data-reveal-group] > *').forEach(el => io.observe(el));
 </script>
 <script>
-  // Selecciona los "slides" de texto
   const slides = Array.from(document.querySelectorAll('.shop-block .infoSection > div'));
-  // (Opcional) imágenes para sincronizar
   const imgs   = Array.from(document.querySelectorAll('.shop-block .imgSection .headphone'));
 
-  // Asegura un activo inicial
   let idx = slides.findIndex(el => el.classList.contains('active'));
   if (idx < 0) { idx = 0; slides[0].classList.add('active'); }
   if (imgs.length) { imgs.forEach((im,i)=> im.classList.toggle('active', i===idx)); }
@@ -231,14 +245,11 @@
   const prevBtn = document.querySelector('.shop-block .pre');
 
   function show(newIndex){
-    // desactiva actual
     slides[idx].classList.remove('active');
     if (imgs.length) imgs[idx].classList.remove('active');
 
-    // calcula nuevo índice (carrusel circular)
     idx = (newIndex + slides.length) % slides.length;
 
-    // activa nuevo
     slides[idx].classList.add('active');
     if (imgs.length) imgs[idx].classList.add('active');
   }
@@ -247,45 +258,98 @@
   prevBtn && prevBtn.addEventListener('click', ()=> show(idx - 1));
 </script>
 
-<!-- Ventanas modales: video y presentación -->
 <script>
 (function(){
-  function openModal(modal){
-    const iframe = modal.querySelector('iframe[data-src]');
-    if (iframe && !iframe.getAttribute('src')) {
-      iframe.setAttribute('src', iframe.dataset.src);
+  const modal = document.getElementById('topic-modal');
+  const title = document.getElementById('topic-modal-title');
+  const description = document.getElementById('topic-modal-description');
+  const pdfFrame = document.getElementById('topic-modal-pdf');
+  const videoFrame = document.getElementById('topic-modal-video');
+  const pdfCard = document.getElementById('topic-modal-pdf-card');
+  const videoCard = document.getElementById('topic-modal-video-card');
+  const downloadLink = document.getElementById('topic-modal-download');
+  const choiceButtons = Array.from(document.querySelectorAll('.modal-choice-btn'));
+
+  const topics = {
+    1: {
+      title: 'La cultura como producción material y simbólica',
+      description: 'Materiales de apoyo para comprender la cultura desde su dimensión material, social y simbólica.',
+      pdf: 'assets/tema1.pdf'
+    },
+    2: {
+      title: 'El islam y su influencia cultural: surgimiento y expansión',
+      description: 'Presentación para estudiar el origen del islam y su impacto cultural.',
+      pdf: 'assets/tema2.pdf'
+    },
+    3: {
+      title: 'Expansión del cristianismo y sus conflictos',
+      description: 'Presentación para revisar la expansión del cristianismo y los conflictos asociados.',
+      pdf: 'assets/tema3.pdf'
+    },
+    4: {
+      title: 'El judaísmo y el monoteísmo',
+      description: 'Recursos para profundizar en el judaísmo, el monoteísmo y su evolución histórica.',
+      pdf: 'assets/tema4.pdf',
+      video: 'https://www.youtube.com/embed/kIx07_jugJA'
     }
+  };
+
+  function setView(view){
+    const isPdf = view === 'pdf';
+    pdfCard.classList.toggle('is-hidden', !isPdf);
+    videoCard.classList.toggle('is-hidden', isPdf);
+    choiceButtons.forEach((button) => button.classList.toggle('is-active', button.dataset.view === view));
+  }
+
+  function openModal(topicId){
+    const topic = topics[topicId];
+    if (!topic) return;
+
+    title.textContent = topic.title;
+    description.textContent = topic.description;
+    pdfFrame.setAttribute('src', topic.pdf);
+    downloadLink.setAttribute('href', topic.pdf);
+    downloadLink.setAttribute('download', `${topic.title}.pdf`);
+
+    if (topic.video) {
+      videoFrame.setAttribute('src', topic.video);
+      choiceButtons.forEach((button) => button.classList.remove('is-hidden'));
+      setView('pdf');
+    } else {
+      videoFrame.removeAttribute('src');
+      choiceButtons.forEach((button) => button.classList.add('is-hidden'));
+      setView('pdf');
+    }
+
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
   }
 
-  function closeModal(modal){
+  function closeModal(){
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('modal-open');
-    // Quitamos el src para detener la reproducción del video al cerrar
-    const iframe = modal.querySelector('iframe[data-src]');
-    if (iframe) iframe.removeAttribute('src');
+    pdfFrame.removeAttribute('src');
+    videoFrame.removeAttribute('src');
   }
 
-  document.querySelectorAll('.open-modal-btn').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const modal = document.getElementById(btn.dataset.modal);
-      if (modal) openModal(modal);
-    });
+  document.querySelectorAll('.topic-card').forEach((card) => {
+    card.addEventListener('click', () => openModal(card.dataset.topic));
   });
 
-  document.querySelectorAll('.modal-overlay').forEach((modal) => {
-    modal.querySelector('.modal-close')?.addEventListener('click', () => closeModal(modal));
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal(modal);
-    });
+  choiceButtons.forEach((button) => {
+    button.addEventListener('click', () => setView(button.dataset.view));
   });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      document.querySelectorAll('.modal-overlay.is-open').forEach(closeModal);
+  modal.querySelector('.modal-close')?.addEventListener('click', closeModal);
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) closeModal();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+      closeModal();
     }
   });
 })();
